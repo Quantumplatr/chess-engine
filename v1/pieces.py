@@ -9,7 +9,7 @@ class Pawn(Piece):
         self.icons = [ "♟", "♙"]
         self.name = "pawn"
         
-    def get_legal_moves(self) -> list:
+    def get_legal_moves(self, ignore_check=False) -> list:
         (i,j) = self.pos
         moves = []
         
@@ -55,7 +55,11 @@ class Pawn(Piece):
                 if i + 1 < 8 and self.game.pieces[i + 1][j + 1] != None and self.game.pieces[i + 1][j + 1].color != self.color:
                     moves.append((i + 1, j + 1))
                     
-        # TODO: check if king is in check
+        # TODO: en passant
+
+        if not ignore_check:            
+            moves = self.remove_check_moves(moves)
+                
         return moves           
 
 class Rook(Piece):
@@ -65,7 +69,7 @@ class Rook(Piece):
         self.icons = [ "♜", "♖"]
         self.name = "rook"
 
-    def get_legal_moves(self) -> list:
+    def get_legal_moves(self, ignore_check=False) -> list:
         (i,j) = self.pos
         moves = []
         
@@ -113,7 +117,10 @@ class Rook(Piece):
                     moves.append((i, temp_j))
                 break
             
-        # TODO: check if king is in check
+        
+        # TODO: check if king is in  check
+        if not ignore_check:
+            moves = self.remove_check_moves(moves)
         return moves
 
 class Knight(Piece):
@@ -123,7 +130,7 @@ class Knight(Piece):
         self.icons = [ "♞", "♘"]
         self.name = "knight"
 
-    def get_legal_moves(self) -> list:
+    def get_legal_moves(self, ignore_check=False) -> list:
         (i,j) = self.pos
         moves = []
         
@@ -167,7 +174,10 @@ class Knight(Piece):
             if self.game.pieces[i + 2][j + 1] == None or self.game.pieces[i + 2][j + 1].color != self.color:
                 moves.append((i + 2, j + 1))
                 
-        # TODO: check if king is in check
+        
+        # TODO: check if king is in  check
+        if not ignore_check:
+            moves = self.remove_check_moves(moves)
         return moves
 
 class Bishop(Piece):
@@ -177,7 +187,7 @@ class Bishop(Piece):
         self.icons = [ "♝", "♗"]
         self.name = "bishop"
 
-    def get_legal_moves(self) -> list:
+    def get_legal_moves(self, ignore_check=False) -> list:
         (i,j) = self.pos
         moves = []
         
@@ -233,7 +243,10 @@ class Bishop(Piece):
                     moves.append((temp_i, temp_j))
                 break
             
-        # TODO: check if king is in check
+        
+        # TODO: check if king is in  check
+        if not ignore_check:
+            moves = self.remove_check_moves(moves)
         return moves
 
 class Queen(Piece):
@@ -243,7 +256,7 @@ class Queen(Piece):
         self.icons = [ "♛", "♕"]
         self.name = "queen"
 
-    def get_legal_moves(self) -> list:
+    def get_legal_moves(self, ignore_check=False) -> list:
         (i,j) = self.pos
         moves = []
         
@@ -347,7 +360,10 @@ class Queen(Piece):
                     moves.append((temp_i, temp_j))
                 break
             
-        # TODO: check if king is in check
+        
+        # TODO: check if king is in  check
+        if not ignore_check: 
+           moves = self.remove_check_moves(moves)
         return moves
     
 class King(Piece):
@@ -357,7 +373,7 @@ class King(Piece):
         self.icons = [ "♚", "♔"]
         self.name = "king"
 
-    def get_legal_moves(self) -> list:
+    def get_legal_moves(self, ignore_check=False) -> list:
         (i,j) = self.pos
         moves = []
         
@@ -428,5 +444,8 @@ class King(Piece):
         # Castling
         # TODO: implement
         
-        # TODO: check if king is in check
+        
+        # TODO: check if king is in  check
+        if not ignore_check:
+            moves = self.remove_check_moves(moves)
         return moves

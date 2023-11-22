@@ -65,7 +65,7 @@ def render_piece(piece, pos):
         font = pygame.font.SysFont("sans-serif", 50)
         icon = font.render(piece.icons[piece.color == "white"], True, (0, 0, 0))
     else:
-        icon = pygame.image.load('./pieces/' + style["piece_style"] + '/' + piece.name + "_" + piece.color + '.png')
+        icon = pygame.image.load('../pieces/' + style["piece_style"] + '/' + piece.name + "_" + piece.color + '.png')
         icon = pygame.transform.scale(icon, (100, 100))
         
     x = i * 100 + 50 + (100 - icon.get_width()) / 2
