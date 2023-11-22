@@ -238,11 +238,14 @@ class Game:
 
         return board
 
-    def move_str(self, move_str: str):
+    def move_str(self, move_str: str) -> bool:
         """Makes a move on the board based on the given PGN move string.
 
         Args:
             move_str (str): PGN move string to make (e.g. "Nf3", "Bxe5", "O-O", "O-O-O", "Nxd4", "Nxd4+", "Nxd4#")
+            
+        Returns:
+            bool: Whether the move was successful or not
         """
 
         # TODO: validate string lengths
@@ -262,18 +265,22 @@ class Game:
         #   - Piece type
 
         move = self.parse_pgn_move(move_str)
+        
+        
+        if move is None:
+            return False
 
         if move in ["O-O", "O-O-O"]:
             # TODO: self.castle(move)
-            return
-
-        print(move)
+            return True
 
         # TODO: Get location of piece that is moving
 
         # TODO: Get location of piece that is being taken
 
         # TODO: Move the piece
+        
+        return True
 
     def move(
         self,
@@ -296,6 +303,9 @@ class Game:
             check (bool, optional): Whether the move is a check. Defaults to False.
             checkmate (bool, optional): Whether the move is a checkmate. Defaults to False.
         """
+        
+        # TODO: validate move parameters
+        # e.g. pawns must promote on the last rank
 
         # Get move bits from positions
         move = self.two_pos_to_bit(from_pos, to_pos)
@@ -523,6 +533,11 @@ class Game:
 
         # To lowercase
         move_str = move_str.lower()
+        
+        # Check length
+        if len(move_str) < 2:
+            print("Invalid move: Too short")
+            return None
 
         # --- Check/Checkmate --- #
         check = False
@@ -619,8 +634,6 @@ class Game:
 
         # --- Piece type --- #
         piece = move_str
-
-        print(piece)
 
         # Validate piece type
         if piece not in [
